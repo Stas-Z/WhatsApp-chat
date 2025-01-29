@@ -1,0 +1,7 @@
+.idea
+node_modules/
+*.tsbuildinfo
+.env*
+/build
+stats.html
+.fttemplates
