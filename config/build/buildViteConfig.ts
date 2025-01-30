@@ -17,7 +17,6 @@ export function buildViteConfig(options: BuildOptions): UserConfig {
         build: buildOptions(options),
         define: {
             __IS_DEV__: JSON.stringify(isDev),
-            __API__: JSON.stringify(options.apiUrl),
         },
         css: {
             modules: {

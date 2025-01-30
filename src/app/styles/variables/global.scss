@@ -18,7 +18,15 @@
 
     // цвета
     --bg-color: #dbd8d4;
+    --skeleton-bg: #e9e9e978;
     --shadow-color: 0 4px 4px 0 rgb(0 0 0 / 25%);
+    --accent-border: #abffac;
+    --border: #3b9702;
+    --text: #141c1f;
+    --hint: #adbcc0;
+    --overlay-color: rgba(0 0 0 / 50%);
 
-    // размеры
+    // z - Индексы
+    --modal-z-index: 1000;
+    --overlay-z-index: 100;
 }

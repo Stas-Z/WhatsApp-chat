@@ -13,7 +13,7 @@ const ChatPage = (props: ChatPageProps) => {
 
     return (
         <div className={classNames(cls.chatPage, {}, [className])}>
-            <div />
+            ChatPage
         </div>
     )
 }

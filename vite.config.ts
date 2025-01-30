@@ -5,20 +5,9 @@ import { defineConfig, UserConfig } from 'vite'
 import { buildViteConfig } from './config/build/buildViteConfig'
 import { BuildPaths } from './config/build/types/config'
 
-function getApiUrl(mode: string, apiUrl?: string) {
-    if (apiUrl) {
-        return apiUrl
-    }
-    if (mode === 'production') {
-        return '/api'
-    }
-    return 'http://localhost:5000/api'
-}
-
 export default defineConfig(({ mode }) => {
     const PORT = Number(process.env.port) || 3000
     const isDev = mode === 'development'
-    const apiUrl = getApiUrl(mode, process.env.apiUrl)
 
     const paths: BuildPaths = {
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
@@ -32,7 +21,6 @@ export default defineConfig(({ mode }) => {
         paths,
         isDev,
         port: PORT,
-        apiUrl,
     })
 
     return config

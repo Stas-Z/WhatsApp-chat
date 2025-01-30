@@ -1,0 +1,102 @@
+.title {
+    color: var(--text);
+}
+
+.text {
+    color: var(--text);
+}
+
+.succes {
+    .title {
+        color: var(--succes);
+    }
+
+    .text {
+        color: var(--succes);
+    }
+}
+
+.error {
+    .title {
+        color: var(--red-light);
+    }
+
+    .text {
+        color: var(--red-dark);
+    }
+}
+
+.grey {
+    .title {
+        color: var(--text-grey);
+    }
+
+    .text {
+        color: var(--text-grey);
+    }
+}
+
+.white {
+    .title {
+        color: white;
+    }
+
+    .text {
+        color: white;
+    }
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.size_s {
+    .title {
+        font: var(--font-m);
+    }
+
+    .text {
+        font: var(--font-s);
+    }
+}
+
+.size_m {
+    .title {
+        font: var(--font-l);
+    }
+
+    .text {
+        font: var(--font-m);
+    }
+}
+
+.size_l {
+    .title {
+        font: var(--font-l);
+    }
+
+    .text {
+        font: var(--font-l);
+    }
+}
+
+.bold {
+    .title,
+    .text {
+        font-weight: 700;
+    }
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

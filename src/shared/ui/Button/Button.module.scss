@@ -1,0 +1,79 @@
+.addonLeft svg,
+.addonRight svg {
+    color: var(--hint);
+}
+
+.button {
+    cursor: pointer;
+    color: var(--text);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: var(--font-m);
+
+    &:hover {
+        color: var(--accent-border);
+
+        .addonLeft svg,
+        .addonRight svg {
+            color: var(--accent-border);
+        }
+    }
+}
+
+.addonLeft,
+.addonRight {
+    display: flex;
+}
+
+.withAddon {
+    padding: 0 16px;
+}
+
+.clear {
+    padding: 0;
+    border: none;
+    background: none;
+    outline-color: transparent;
+}
+
+.filled {
+    border: none;
+    outline: none;
+    border-radius: 34px;
+
+    &.normal {
+        background: #2ab540;
+    }
+}
+
+.outline {
+    background: white;
+    border-radius: 16px;
+
+    &:hover {
+        border: 1px solid var(--accent-border);
+    }
+
+    &.normal {
+        border: 1px solid var(--border);
+    }
+}
+
+.disabled {
+    opacity: 0.5;
+
+    &:hover {
+        color: var(--text);
+
+        .addonLeft svg,
+        .addonRight svg {
+            color: var(--hint);
+        }
+    }
+}
+
+.fullWidth {
+    width: 100%;
+}

@@ -1,0 +1,17 @@
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    width: 334px;
+}
+
+@media (width <= 768px) {
+    .loginForm {
+        max-width: 360px;
+        width: 100%;
+    }
+}
+
+.loginBtn {
+    padding: 8px 30px;
+    color: white;
+}
