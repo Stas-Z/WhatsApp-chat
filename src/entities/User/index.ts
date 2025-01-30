@@ -1,6 +1,9 @@
 export { initAuthData } from './model/services/initAuthData'
 
-export { getUserAuthData } from './model/selectors/getUserAuthData/getUserAuthData'
+export {
+    getUserAuthData,
+    getCurrentUser,
+} from './model/selectors/getUserAuthData/getUserAuthData'
 
 export { userReducer, userActions } from './model/slices/userSlice'
 

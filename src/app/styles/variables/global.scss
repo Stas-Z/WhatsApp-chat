@@ -12,19 +12,30 @@
     --font-m: var(--font-size-m) / var(--font-line-m) var(--font-family-main);
 
     // l
-    --font-size-l: 38px;
-    --font-line-l: 36px;
+    --font-size-l: 22px;
+    --font-line-l: 32px;
     --font-l: var(--font-size-l) / var(--font-line-l) var(--font-family-main);
+
+    // Xl
+    --font-size-xl: 38px;
+    --font-line-xl: 36px;
+    --font-xl: var(--font-size-xl) / var(--font-line-xl) var(--font-family-main);
 
     // цвета
     --bg-color: #dbd8d4;
+    --bg-hover: #f5f6f6;
     --skeleton-bg: #e9e9e978;
     --shadow-color: 0 4px 4px 0 rgb(0 0 0 / 25%);
     --accent-border: #abffac;
     --border: #3b9702;
+    --bg-stripe-color: #00a884;
+    --succes: #62de85;
     --text: #141c1f;
     --hint: #adbcc0;
     --overlay-color: rgba(0 0 0 / 50%);
+    --red-light: #f00;
+    --red-dark: #ce0505;
+    --text-grey: #999;
 
     // z - Индексы
     --modal-z-index: 1000;

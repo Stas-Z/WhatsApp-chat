@@ -30,15 +30,8 @@ const LoginForm = (props: LoginFormProps) => {
     const idInstance = useSelector(getIdInstance)
     const apiTokenInstance = useSelector(getTokenInstance)
 
-    const [login, { isLoading, error }] = useLazyAuthByInstance()
+    const [login, { isLoading, isError }] = useLazyAuthByInstance()
 
-    function getError() {
-        if (error) {
-            if ('data' in error) {
-                return (error.data as { message?: string }).message || ''
-            }
-        }
-    }
     const onChangeInstance = useCallback(
         (value: string) => {
             dispatch(regActions.setIdInstance(value))
@@ -73,8 +66,6 @@ const LoginForm = (props: LoginFormProps) => {
         }
     }, [onKeyDown])
 
-    const errorMessage = <Text text={getError()} variant="error" />
-
     return (
         <VStack
             gap="24"
@@ -88,7 +79,9 @@ const LoginForm = (props: LoginFormProps) => {
                     fallback={<Skeleton width={200} height={43} />}
                 />
             </VStack>
-            {error && errorMessage}
+            {isError && (
+                <Text text="Вы ввели неправильные данные!" variant="error" />
+            )}
             <VStack gap="16" max>
                 <Input
                     autoFocus

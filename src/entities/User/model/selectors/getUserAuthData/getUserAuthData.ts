@@ -13,3 +13,11 @@ export const getCurrentUser = createSelector(
     getUserData,
     (user) => user.currentUser,
 )
+export const getUserInstance = createSelector(
+    getUserData,
+    (user) => user.currentUser?.idInstance,
+)
+export const getUserToken = createSelector(
+    getUserData,
+    (user) => user.currentUser?.apiTokenInstance,
+)

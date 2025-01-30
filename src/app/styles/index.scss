@@ -1,6 +1,11 @@
 @use 'reset';
 @use 'variables/global';
 
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(11, 20, 26, 0.2) transparent;
+}
+
 .app {
     font: var(--font-s);
     background-color: var(--bg-color);

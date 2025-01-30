@@ -1,0 +1,43 @@
+.chatLayout {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1;
+    background-color: #f7f8fa;
+}
+@media screen and (min-width: 1441px) {
+    .chatLayout {
+        top: 19px;
+        width: calc(100% - 38px);
+        max-width: 1600px;
+        height: calc(100% - 38px);
+        margin: 0 auto;
+        box-shadow: 0px 6px 18px rgba(11, 20, 26, 0.05);
+    }
+}
+
+@media screen and (max-height: 512px) {
+    .chatLayout {
+        min-height: 512px;
+    }
+}
+
+.sidebar {
+    flex: 0 0 30%;
+    max-width: 30%;
+    height: 100%;
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
+    .sidebar {
+        flex: 0 0 40%;
+        max-width: 40%;
+    }
+}
+
+.content {
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}

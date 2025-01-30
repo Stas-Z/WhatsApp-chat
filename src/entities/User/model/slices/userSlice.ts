@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import {
+    API_TOKEN_INSTANCE,
+    USER_ID_INSTANCE,
+} from '@/shared/const/localstorage'
+
 import { User, UserSchema } from '../types/userSchema'
 
 const initialState: UserSchema = {
@@ -16,6 +21,8 @@ export const userSlice = createSlice({
         },
         logout: (state) => {
             state.isAuth = false
+            localStorage.removeItem(USER_ID_INSTANCE)
+            localStorage.removeItem(API_TOKEN_INSTANCE)
         },
     },
 })
