@@ -1,0 +1,51 @@
+.message {
+    margin-bottom: 2px;
+    z-index: 2;
+    position: relative;
+}
+.messageWrapper {
+    padding: 0 30px;
+}
+
+.messageBlock {
+    background: #d9fdd3;
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+
+    &.incoming {
+        background: white;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 0;
+    }
+}
+
+@media screen and (min-width: 1301px) {
+    .messageBlock {
+        max-width: 65%;
+    }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1300px) {
+    .messageBlock {
+        max-width: 75%;
+    }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1024px) {
+    .messageBlock {
+        max-width: 85%;
+    }
+}
+
+.textBlock {
+    padding: 6px 7px 8px 9px;
+}
+
+.text {
+    margin-right: 34px;
+}
+.time {
+    float: right;
+    margin-top: -10px;
+}

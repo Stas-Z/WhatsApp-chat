@@ -1,9 +1,10 @@
-import { memo, useCallback, useEffect } from 'react'
+import { memo, useCallback } from 'react'
 
 import { useSelector } from 'react-redux'
 
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
+import { useEnterKey } from '@/shared/lib/hooks/useEnterKey/useEnterKey'
 import { AppImage } from '@/shared/ui/AppImage'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
@@ -14,6 +15,7 @@ import { Text } from '@/shared/ui/Text'
 import cls from './LoginForm.module.scss'
 import { useLazyAuthByInstance } from '../../model/api/userAuthApi'
 import {
+    getApiUrl,
     getIdInstance,
     getTokenInstance,
 } from '../../model/selectors/getLoginState/getLoginState'
@@ -27,11 +29,18 @@ const LoginForm = (props: LoginFormProps) => {
     const { className } = props
 
     const dispatch = useAppDispatch()
+    const apiUrl = useSelector(getApiUrl)
     const idInstance = useSelector(getIdInstance)
     const apiTokenInstance = useSelector(getTokenInstance)
 
     const [login, { isLoading, isError }] = useLazyAuthByInstance()
 
+    const onChangeApiUrl = useCallback(
+        (value: string) => {
+            dispatch(regActions.setApiUrl(value))
+        },
+        [dispatch],
+    )
     const onChangeInstance = useCallback(
         (value: string) => {
             dispatch(regActions.setIdInstance(value))
@@ -47,24 +56,10 @@ const LoginForm = (props: LoginFormProps) => {
     )
 
     const onClickLogin = useCallback(async () => {
-        login({ idInstance, apiTokenInstance })
-    }, [apiTokenInstance, idInstance, login])
+        login({ apiUrl, idInstance, apiTokenInstance })
+    }, [apiTokenInstance, apiUrl, idInstance, login])
 
-    const onKeyDown = useCallback(
-        (e: KeyboardEvent) => {
-            if (e.key === 'Enter') {
-                onClickLogin()
-            }
-        },
-        [onClickLogin],
-    )
-    useEffect(() => {
-        window.addEventListener('keydown', onKeyDown)
-
-        return () => {
-            window.removeEventListener('keydown', onKeyDown)
-        }
-    }, [onKeyDown])
+    useEnterKey(onClickLogin)
 
     return (
         <VStack
@@ -83,6 +78,15 @@ const LoginForm = (props: LoginFormProps) => {
                 <Text text="Вы ввели неправильные данные!" variant="error" />
             )}
             <VStack gap="16" max>
+                <Input
+                    autoFocus
+                    type="text"
+                    className={cls.input}
+                    placeholder="Введите apiUrl"
+                    size="l"
+                    onChange={onChangeApiUrl}
+                    value={apiUrl}
+                />
                 <Input
                     autoFocus
                     type="text"

@@ -13,7 +13,6 @@ interface RequireAuthProps {
 export function RequireAuth(props: RequireAuthProps) {
     const { children } = props
     const auth = useSelector(getUserAuthData)
-    console.log('auth', auth)
 
     const location = useLocation()
 

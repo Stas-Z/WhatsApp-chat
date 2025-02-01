@@ -6,6 +6,15 @@
     color: var(--text);
 }
 
+.primary {
+    .title {
+        color: var(--primary-title);
+    }
+
+    .text {
+        color: var(--primary-text);
+    }
+}
 .succes {
     .title {
         color: var(--succes);
@@ -58,6 +67,15 @@
     text-align: center;
 }
 
+.size_xs {
+    .title {
+        font: var(--font-s);
+    }
+
+    .text {
+        font: var(--font-xs);
+    }
+}
 .size_s {
     .title {
         font: var(--font-m);
@@ -92,6 +110,12 @@
     .title,
     .text {
         font-weight: 700;
+    }
+}
+.lighter {
+    .title,
+    .text {
+        font-weight: lighter;
     }
 }
 

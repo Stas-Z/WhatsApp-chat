@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, memo, useState } from 'react'
+import React, { InputHTMLAttributes, memo, ReactNode, useState } from 'react'
 
 import { Mods, classNames } from '@/shared/lib/classNames/classNames'
 
@@ -12,6 +12,7 @@ type HTMLInputProps = Omit<
 >
 
 type InputSize = 's' | 'm' | 'l'
+type InputVariant = 'otlined' | 'normal'
 
 interface InputProps extends HTMLInputProps {
     className?: string
@@ -20,6 +21,8 @@ interface InputProps extends HTMLInputProps {
     readonly?: boolean
     label?: string
     size?: InputSize
+    variant?: InputVariant
+    addonRight?: ReactNode
 }
 
 export const Input = memo((props: InputProps) => {
@@ -31,6 +34,8 @@ export const Input = memo((props: InputProps) => {
         readonly,
         label,
         size = 'm',
+        variant = 'otlined',
+        addonRight,
         ...otherProps
     } = props
 
@@ -51,6 +56,7 @@ export const Input = memo((props: InputProps) => {
     const mods: Mods = {
         [cls.readonly]: readonly,
         [cls.focused]: isFocused,
+        [cls.withAddonRight]: Boolean(addonRight),
     }
 
     const input = (
@@ -58,6 +64,7 @@ export const Input = memo((props: InputProps) => {
             className={classNames(cls.inputWrapper, mods, [
                 className,
                 cls[size],
+                cls[variant],
             ])}
         >
             <input
@@ -70,6 +77,7 @@ export const Input = memo((props: InputProps) => {
                 onFocus={onFocus}
                 {...otherProps}
             />
+            {addonRight && <div className={cls.addonRight}>{addonRight}</div>}
         </div>
     )
 

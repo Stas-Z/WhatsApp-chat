@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { AuthSchema } from '../types/AuthSchema'
 
 export const initialState: AuthSchema = {
+    apiUrl: '',
     idInstance: '',
     apiTokenInstance: '',
 }
@@ -11,6 +12,9 @@ export const regSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
+        setApiUrl: (state, action: PayloadAction<string>) => {
+            state.apiUrl = action.payload
+        },
         setIdInstance: (state, action: PayloadAction<string>) => {
             state.idInstance = action.payload
         },

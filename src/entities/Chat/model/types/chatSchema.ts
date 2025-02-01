@@ -1,9 +1,13 @@
 export interface Chat {
-    id: number
-    name: string
-    urlAvatar?: string
+    chatId: string
+    name?: string
+    contactName?: string
+    avatar?: string
 }
 
 export interface ChatSchema {
+    allChats: Chat[]
     currentChat?: Chat
+    phoneNumber: string
+    messageValue: string
 }

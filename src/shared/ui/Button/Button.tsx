@@ -21,6 +21,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     addonLeft?: ReactNode
     addonRight?: ReactNode
     isLoading?: boolean
+    color?: string
 }
 
 export const Button = forwardRef(
@@ -35,6 +36,7 @@ export const Button = forwardRef(
             addonLeft,
             addonRight,
             isLoading,
+            color,
             ...otherProps
         } = props
 
@@ -50,6 +52,7 @@ export const Button = forwardRef(
             <button
                 type="button"
                 disabled={disabled}
+                style={{ color: color }}
                 className={classNames(cls.button, mods, addClass)}
                 {...otherProps}
                 ref={ref}

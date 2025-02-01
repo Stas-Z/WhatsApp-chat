@@ -13,6 +13,10 @@ export const getCurrentUser = createSelector(
     getUserData,
     (user) => user.currentUser,
 )
+export const getUserApiUrl = createSelector(
+    getUserData,
+    (user) => user.currentUser?.apiUrl,
+)
 export const getUserInstance = createSelector(
     getUserData,
     (user) => user.currentUser?.idInstance,

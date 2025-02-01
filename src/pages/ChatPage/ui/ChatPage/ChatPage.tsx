@@ -1,5 +1,6 @@
 import { memo } from 'react'
 
+import { ChatWindow } from '@/features/ChatWindow'
 import { ChatLayout } from '@/shared/layouts/ChatLayout'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { VStack } from '@/shared/ui/Stack'
@@ -16,7 +17,7 @@ const ChatPage = (props: ChatPageProps) => {
 
     return (
         <VStack maxHeight className={classNames(cls.chatPage, {}, [className])}>
-            <ChatLayout content={'content'} sidebar={<Sidebar />} />
+            <ChatLayout content={<ChatWindow />} sidebar={<Sidebar />} />
         </VStack>
     )
 }

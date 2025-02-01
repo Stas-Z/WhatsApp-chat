@@ -2,6 +2,7 @@ import { userActions } from '@/entities/User'
 import { rtkApi } from '@/shared/api/rtkApi'
 import {
     API_TOKEN_INSTANCE,
+    API_URL,
     USER_ID_INSTANCE,
 } from '@/shared/const/localstorage'
 
@@ -10,12 +11,12 @@ import { AuthSchema } from '../types/AuthSchema'
 export const userAuthApi = rtkApi.injectEndpoints({
     endpoints: (build) => ({
         validateAuth: build.query<string, AuthSchema>({
-            query: ({ idInstance, apiTokenInstance }) => ({
-                url: `/waInstance${idInstance}/getStateInstance/${apiTokenInstance}`,
+            query: ({ apiUrl, idInstance, apiTokenInstance }) => ({
+                url: `${apiUrl}/waInstance${idInstance}/getStateInstance/${apiTokenInstance}`,
                 method: 'GET',
             }),
             onQueryStarted: async (
-                { idInstance, apiTokenInstance },
+                { apiUrl, idInstance, apiTokenInstance },
                 thunkAPI,
             ) => {
                 const { dispatch, queryFulfilled } = thunkAPI
@@ -24,17 +25,16 @@ export const userAuthApi = rtkApi.injectEndpoints({
                     if (data && idInstance && apiTokenInstance) {
                         dispatch(
                             userActions.setUser({
+                                apiUrl,
                                 idInstance,
                                 apiTokenInstance,
                             }),
                         )
-                        localStorage.setItem(
-                            USER_ID_INSTANCE,
-                            String(idInstance),
-                        )
+                        localStorage.setItem(API_URL, apiUrl)
+                        localStorage.setItem(USER_ID_INSTANCE, idInstance)
                         localStorage.setItem(
                             API_TOKEN_INSTANCE,
-                            String(apiTokenInstance),
+                            apiTokenInstance,
                         )
                     }
                 } catch (err) {

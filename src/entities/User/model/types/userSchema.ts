@@ -1,4 +1,5 @@
 export interface User {
+    apiUrl: string
     idInstance: string
     apiTokenInstance: string
 }

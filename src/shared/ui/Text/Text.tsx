@@ -4,11 +4,17 @@ import { classNames } from '@/shared/lib/classNames/classNames'
 
 import cls from './Text.module.scss'
 
-export type TextVariant = 'primary' | 'error' | 'grey' | 'white' | 'succes'
+export type TextVariant =
+    | 'normal'
+    | 'primary'
+    | 'error'
+    | 'grey'
+    | 'white'
+    | 'succes'
 
 export type TextAlign = 'right' | 'left' | 'center'
 
-export type TextSize = 's' | 'm' | 'l'
+export type TextSize = 'xs' | 's' | 'm' | 'l'
 
 interface TextProps {
     className?: string
@@ -18,17 +24,20 @@ interface TextProps {
     align?: TextAlign
     size?: TextSize
     bold?: boolean
+    lighter?: boolean
     ellipsis?: boolean
 }
 
-type HeaderTagType = 'h1' | 'h2' | 'h3'
+type HeaderTagType = 'h1' | 'h2' | 'h3' | 'h4'
 
 const mapSizeToHeaderTag: Record<TextSize, HeaderTagType> = {
+    xs: 'h4',
     s: 'h3',
     m: 'h2',
     l: 'h1',
 }
 const mapSizeToClass: Record<TextSize, string> = {
+    xs: 'size_xs',
     s: 'size_s',
     m: 'size_m',
     l: 'size_l',
@@ -39,10 +48,11 @@ export const Text = memo((props: TextProps) => {
         className,
         text,
         title,
-        variant = 'primary',
+        variant = 'normal',
         align = 'left',
         size = 'm',
         bold,
+        lighter,
         ellipsis,
     } = props
 
@@ -60,7 +70,10 @@ export const Text = memo((props: TextProps) => {
         <div
             className={classNames(
                 cls.text,
-                { [cls.bold]: bold },
+                {
+                    [cls.bold]: bold,
+                    [cls.lighter]: lighter,
+                },
                 additionalClasses,
             )}
         >

@@ -2,18 +2,32 @@
     height: 72px;
     position: relative;
     cursor: pointer;
-    &:hover {
+    &:hover,
+    &.current {
         background-color: var(--bg-hover);
     }
 }
 .avatar {
-    width: 100px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap;
-    align-items: center;
+    width: 72px;
+    flex-shrink: 0;
 }
 .info {
     border-top: 1px solid #e9edef;
+    min-width: 0;
+    padding-right: 15px;
+}
+
+.delete {
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background-color: rgb(240, 158, 158);
+    }
+}
+.notice {
+    overflow: hidden;
+    margin-right: 10px;
 }

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import {
     API_TOKEN_INSTANCE,
+    API_URL,
     USER_ID_INSTANCE,
 } from '@/shared/const/localstorage'
 
@@ -21,6 +22,7 @@ export const userSlice = createSlice({
         },
         logout: (state) => {
             state.isAuth = false
+            localStorage.removeItem(API_URL)
             localStorage.removeItem(USER_ID_INSTANCE)
             localStorage.removeItem(API_TOKEN_INSTANCE)
         },

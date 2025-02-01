@@ -1,0 +1,9 @@
+.chatDetails {
+    overflow: hidden;
+    overflow-y: scroll;
+    z-index: 10;
+}
+.space {
+    flex: 1 1 auto;
+    min-height: 12px;
+}
