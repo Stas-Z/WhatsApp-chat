@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "start:vite": "vite",
-        "build:prod:vite": "vite build",
+        "build:vite": "vite build",
         "lint:ts": "eslint \"**/*.{ts,tsx}\" ",
         "lint:ts:fix": "eslint \"**/*.{ts,tsx}\" --fix"
     },

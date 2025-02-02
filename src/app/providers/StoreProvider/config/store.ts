@@ -10,6 +10,7 @@ import { regReducer } from '@/features/AuthorizationForm'
 import { rtkApi } from '@/shared/api/rtkApi'
 
 import { StateSchema } from './StateSchema'
+import { messageMiddleware } from '../../../middleware/messageMiddleware/messageMiddleware'
 
 export function createReduxStore(initialState?: StateSchema) {
     const rootReducers: ReducersMapObject<StateSchema> = {
@@ -28,7 +29,7 @@ export function createReduxStore(initialState?: StateSchema) {
         devTools: __IS_DEV__,
         preloadedState: initialState,
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat(rtkApi.middleware),
+            getDefaultMiddleware().concat(rtkApi.middleware, messageMiddleware),
     })
 
     return store

@@ -3,8 +3,11 @@ import { memo, useCallback, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 import { getCurrentChat } from '@/entities/Chat'
-import { getMessageValue, useSendMessage } from '@/entities/Message'
-import { messageActions } from '@/entities/Message'
+import {
+    getMessageValue,
+    useSendMessage,
+    messageActions,
+} from '@/entities/Message'
 import { getUserApiUrl, getUserInstance, getUserToken } from '@/entities/User'
 import Send from '@/shared/assets/icons/send.svg?react'
 import { classNames } from '@/shared/lib/classNames/classNames'
