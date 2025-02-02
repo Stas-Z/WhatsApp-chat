@@ -1,11 +1,11 @@
 import { StateSchema } from '@/app/providers/StoreProvider'
-import { chatApi } from '@/entities/Chat/model/api/chatApi'
-import { MessageType } from '@/entities/Message/model/types/message'
-import { NoticeResponse } from '@/entities/Notice/model/types/notification'
+import { chatApi } from '@/entities/Chat'
+import { MessageType } from '@/entities/Message'
 import { rtkApi } from '@/shared/api/rtkApi'
 import { convertTime } from '@/shared/lib/helpers/convertTime/convertTime'
 
 import { noticeActions } from '../slices/noticeSlice'
+import { NoticeResponse } from '../types/notification'
 
 interface fetchNoticeProps {
     idInstance?: string
@@ -46,11 +46,12 @@ export const noticeApi = rtkApi.injectEndpoints({
                             body.messageData?.textMessageData?.textMessage
 
                         const state = getState() as StateSchema
-                        const allChats = state.chat.allChats
+                        const allChats = state.newChat.allChats
 
                         if (
                             chatId &&
-                            allChats.some((chat) => chat.chatId === chatId)
+                            allChats.some((chat) => chat.chatId === chatId) &&
+                            data.body.messageData.typeMessage === 'textMessage'
                         ) {
                             dispatch(
                                 noticeActions.setToNotice({
@@ -69,13 +70,20 @@ export const noticeApi = rtkApi.injectEndpoints({
                                         chatId,
                                     },
                                     (draft) => {
-                                        draft.push({
-                                            idMessage,
-                                            chatId,
-                                            textMessage,
-                                            type: MessageType.INCOMING,
-                                            timestamp: Date.now() / 1000,
-                                        })
+                                        if (
+                                            !draft.some(
+                                                (msg) =>
+                                                    msg.idMessage === idMessage,
+                                            )
+                                        ) {
+                                            draft.push({
+                                                idMessage,
+                                                chatId,
+                                                textMessage,
+                                                type: MessageType.INCOMING,
+                                                timestamp: Date.now() / 1000,
+                                            })
+                                        }
                                     },
                                 ),
                             )

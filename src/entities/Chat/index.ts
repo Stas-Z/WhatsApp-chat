@@ -1,12 +1,12 @@
-export { ChatFooter } from './ui/ChatFooter/ChatFooter'
+export { chatApi } from './model/api/chatApi'
+
+export { useGetChatHistory } from './model/api/chatApi'
 
 export { ChatList } from './ui/ChatList/ChatList'
 
-export { ChatDetails } from './ui/ChatDetails'
-
 export {
     getCurrentChat,
-    getPhoneValue,
+    getCurrentChatId,
 } from './model/selectors/getChatSelectors'
 
 export { chatActions, chatReducer } from './model/slices/chatSlice'

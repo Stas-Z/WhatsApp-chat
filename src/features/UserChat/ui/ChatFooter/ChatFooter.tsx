@@ -1,12 +1,11 @@
-import { memo, useCallback } from 'react'
+import { memo, useCallback, useRef } from 'react'
 
 import { useSelector } from 'react-redux'
 
-import {
-    getUserApiUrl,
-    getUserInstance,
-    getUserToken,
-} from '@/entities/User/model/selectors/getUserAuthData/getUserAuthData'
+import { getCurrentChat } from '@/entities/Chat'
+import { getMessageValue, useSendMessage } from '@/entities/Message'
+import { messageActions } from '@/entities/Message'
+import { getUserApiUrl, getUserInstance, getUserToken } from '@/entities/User'
 import Send from '@/shared/assets/icons/send.svg?react'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
@@ -16,12 +15,6 @@ import { Input } from '@/shared/ui/Input'
 import { HStack } from '@/shared/ui/Stack'
 
 import cls from './ChatFooter.module.scss'
-import { useSendMessage } from '../../model/api/chatApi'
-import {
-    getCurrentChat,
-    getMessageValue,
-} from '../../model/selectors/getChatSelectors'
-import { chatActions } from '../../model/slices/chatSlice'
 
 interface ChatFooterProps {
     className?: string
@@ -30,6 +23,8 @@ interface ChatFooterProps {
 export const ChatFooter = memo((props: ChatFooterProps) => {
     const { className } = props
     const dispatch = useAppDispatch()
+
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const message = useSelector(getMessageValue)
 
@@ -40,7 +35,7 @@ export const ChatFooter = memo((props: ChatFooterProps) => {
 
     const onChangeMessage = useCallback(
         (value: string) => {
-            dispatch(chatActions.setMessageValue(value))
+            dispatch(messageActions.setMessageValue(value))
         },
         [dispatch],
     )
@@ -55,7 +50,7 @@ export const ChatFooter = memo((props: ChatFooterProps) => {
             chatId: currentChat?.chatId,
             idInstance,
         })
-        dispatch(chatActions.setMessageValue(''))
+        dispatch(messageActions.setMessageValue(''))
     }, [
         apiTokenInstance,
         apiUrl,
@@ -66,10 +61,11 @@ export const ChatFooter = memo((props: ChatFooterProps) => {
         sendMessage,
     ])
 
-    useEnterKey(onSendClick)
+    useEnterKey(onSendClick, inputRef)
     return (
         <HStack max className={classNames(cls.chatFooter, {}, [className])}>
             <Input
+                ref={inputRef}
                 variant="normal"
                 placeholder="Введите сообщение"
                 className={cls.input}

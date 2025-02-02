@@ -2,15 +2,12 @@ import { memo, useCallback, useState } from 'react'
 
 import { useSelector } from 'react-redux'
 
-import { ChatDetails, ChatFooter, getCurrentChat } from '@/entities/Chat'
-import { useGetChatHistory } from '@/entities/Chat/model/api/chatApi'
-import { getCurrentChatId } from '@/entities/Chat/model/selectors/getChatSelectors'
-import {
-    getUserApiUrl,
-    getUserInstance,
-    getUserToken,
-} from '@/entities/User/model/selectors/getUserAuthData/getUserAuthData'
+import { useGetChatHistory } from '@/entities/Chat'
+import { getCurrentChatId } from '@/entities/Chat'
+import { Error } from '@/entities/Error'
+import { getUserApiUrl, getUserInstance, getUserToken } from '@/entities/User'
 import { AddNewChatModal } from '@/features/AddNewChat'
+import { ChatDetails, ChatFooter, ChatHeader } from '@/features/UserChat'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { AppImage } from '@/shared/ui/AppImage'
 import { Button } from '@/shared/ui/Button'
@@ -18,7 +15,6 @@ import { VStack } from '@/shared/ui/Stack'
 import { Text } from '@/shared/ui/Text'
 
 import cls from './ChatWindow.module.scss'
-import { ChatHeader } from '../../../../entities/Chat/ui/ChatHeader/ChatHeader'
 
 interface ChatWindowProps {
     className?: string
@@ -36,12 +32,11 @@ export const ChatWindow = memo((props: ChatWindowProps) => {
         setIsAuthModal(true)
     }, [])
 
-    const currentChat = useSelector(getCurrentChat)
-
+    const apiUrl = useSelector(getUserApiUrl)
     const idInstance = useSelector(getUserInstance)
     const apiTokenInstance = useSelector(getUserToken)
+
     const chatId = useSelector(getCurrentChatId)
-    const apiUrl = useSelector(getUserApiUrl)
 
     const { data: messages } = useGetChatHistory({
         apiUrl,
@@ -50,7 +45,7 @@ export const ChatWindow = memo((props: ChatWindowProps) => {
         apiTokenInstance,
     })
 
-    if (!currentChat) {
+    if (!chatId) {
         return (
             <VStack
                 max
@@ -60,13 +55,14 @@ export const ChatWindow = memo((props: ChatWindowProps) => {
                 align="center"
                 className={classNames(cls.chatWindow, {}, [className])}
             >
+                <Error />
                 <AppImage
                     alt="notebook image"
                     src="img/notebook.png"
                     width={320}
                 />
                 <Text
-                    title="Начните новый чат."
+                    title="Начните новый чат или продолжайте беседу."
                     size="m"
                     variant="primary"
                     className={cls.text}

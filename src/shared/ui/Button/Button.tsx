@@ -14,7 +14,6 @@ export type ButtonVariant = 'clear' | 'outline' | 'filled'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string
     variant?: ButtonVariant
-    square?: boolean
     disabled?: boolean
     children?: ReactNode
     fullWidth?: boolean
@@ -30,7 +29,6 @@ export const Button = forwardRef(
             className,
             children,
             variant = 'outline',
-            square,
             disabled,
             fullWidth,
             addonLeft,

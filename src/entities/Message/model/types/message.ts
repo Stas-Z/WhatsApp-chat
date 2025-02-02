@@ -12,3 +12,7 @@ export interface Message {
     timestamp: number
     idMessage: string
 }
+
+export interface MessageSchema {
+    messageValue: string
+}

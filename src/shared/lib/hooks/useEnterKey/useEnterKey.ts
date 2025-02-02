@@ -1,19 +1,22 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, RefObject } from 'react'
 
-export const useEnterKey = (callback: () => void) => {
+export const useEnterKey = (
+    callback: () => void,
+    ref: RefObject<HTMLInputElement | null>,
+) => {
     const onKeyDown = useCallback(
         (e: KeyboardEvent) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && ref.current === document.activeElement) {
                 callback()
             }
         },
-        [callback],
+        [callback, ref],
     )
 
     useEffect(() => {
-        window.addEventListener('keydown', onKeyDown)
+        document.addEventListener('keydown', onKeyDown)
         return () => {
-            window.removeEventListener('keydown', onKeyDown)
+            document.removeEventListener('keydown', onKeyDown)
         }
     }, [onKeyDown])
 }

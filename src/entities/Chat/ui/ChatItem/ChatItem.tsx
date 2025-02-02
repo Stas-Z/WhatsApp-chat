@@ -1,20 +1,11 @@
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback } from 'react'
 
 import { useSelector } from 'react-redux'
 
 import { getNoticeById } from '@/entities/Notice'
-import { usReceiveNotification } from '@/entities/Notice/model/api/noticeApi'
-import {
-    getUserApiUrl,
-    getUserInstance,
-    getUserToken,
-} from '@/entities/User/model/selectors/getUserAuthData/getUserAuthData'
-import Close from '@/shared/assets/icons/close.svg?react'
+import Close from '@/shared/assets/icons/delete.svg?react'
 import { classNames } from '@/shared/lib/classNames/classNames'
-import {
-    formatPhoneNumber,
-    onlyPhoneNumber,
-} from '@/shared/lib/helpers/formatPhoneNumber/formatPhoneNumber'
+import { formatPhoneNumber } from '@/shared/lib/helpers/formatPhoneNumber/formatPhoneNumber'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
 import { Avatar } from '@/shared/ui/Avatar'
 import { Icon } from '@/shared/ui/Icon'
@@ -22,69 +13,42 @@ import { HStack, VStack } from '@/shared/ui/Stack'
 import { Text } from '@/shared/ui/Text'
 
 import cls from './ChatItem.module.scss'
-import { useCheckWhatsapp, useGetContact } from '../../model/api/chatApi'
 import { getCurrentChatId } from '../../model/selectors/getChatSelectors'
 import { chatActions } from '../../model/slices/chatSlice'
+import { Chat } from '../../model/types/chatSchema'
 
 interface ChatItemProps {
     className?: string
-    chatId: string
+    chat: Chat
+    onClick?: (chatId: string) => void
 }
 
 export const ChatItem = memo((props: ChatItemProps) => {
-    const { className, chatId } = props
+    const { className, chat, onClick } = props
+    const { chatId, avatar, contactName, name } = chat
+
     const dispatch = useAppDispatch()
 
-    const [isExist, setIsExist] = useState(true)
-
-    const idInstance = useSelector(getUserInstance)
-    const apiTokenInstance = useSelector(getUserToken)
-    const apiUrl = useSelector(getUserApiUrl)
     const currentChat = useSelector(getCurrentChatId)
 
     const notice = useSelector(getNoticeById(chatId))
 
-    const { data: contact } = useGetContact({
-        apiUrl,
-        chatId,
-        apiTokenInstance,
-        idInstance,
-    })
-
-    const { data: exist } = useCheckWhatsapp({
-        apiUrl,
-        chatId: onlyPhoneNumber(chatId),
-        apiTokenInstance,
-        idInstance,
-    })
-
-    const { data } = usReceiveNotification({
-        apiUrl,
-        apiTokenInstance,
-        idInstance,
-    })
-
-    useEffect(() => {
-        if (exist) {
-            setIsExist(exist?.existsWhatsapp)
-        }
-    }, [exist])
-
     const onClickChat = useCallback(() => {
-        if (isExist) {
-            dispatch(
-                chatActions.setChat({
-                    chatId,
-                    name: contact?.name,
-                    avatar: contact?.avatar,
-                }),
-            )
-        }
-    }, [chatId, contact?.name, contact?.avatar, dispatch, isExist])
+        dispatch(
+            chatActions.setCurrentChat({
+                chatId,
+                name,
+                avatar: avatar || undefined,
+            }),
+        )
+    }, [avatar, chatId, dispatch, name])
 
     const onClickDelete = useCallback(() => {
-        dispatch(chatActions.deleteChat({ chatId }))
-    }, [chatId, dispatch])
+        dispatch(chatActions.deleteCurrentChat())
+        if (onClick) {
+            onClick(chatId)
+        }
+    }, [chatId, dispatch, onClick])
 
     return (
         <HStack
@@ -97,17 +61,12 @@ export const ChatItem = memo((props: ChatItemProps) => {
             )}
         >
             <HStack max maxHeight justify="center" className={cls.avatar}>
-                <Avatar src={contact?.avatar} size={49} alt={contact?.name} />
+                <Avatar src={avatar} size={49} alt={name} />
             </HStack>
             <VStack max maxHeight justify="center" className={cls.info}>
                 <Text
-                    title={
-                        contact?.name ||
-                        contact?.contactName ||
-                        formatPhoneNumber(chatId)
-                    }
+                    title={name || contactName || formatPhoneNumber(chatId)}
                     size="s"
-                    variant={isExist ? 'normal' : 'error'}
                 />
                 <HStack max justify="between">
                     <Text
@@ -130,15 +89,19 @@ export const ChatItem = memo((props: ChatItemProps) => {
                     )}
                 </HStack>
             </VStack>
-            {!isExist && (
-                <div className={cls.delete}>
+
+            {currentChat === chatId && (
+                <div
+                    className={cls.delete}
+                    onClick={(event) => event.stopPropagation()}
+                >
                     <Icon
                         Svg={Close}
-                        width={20}
-                        height={20}
+                        width={16}
+                        height={16}
                         clickable
                         onClick={onClickDelete}
-                        color="red"
+                        className={cls.delIcon}
                     />
                 </div>
             )}

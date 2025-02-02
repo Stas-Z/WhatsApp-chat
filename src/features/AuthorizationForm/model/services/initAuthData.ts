@@ -1,12 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import { ThunkConfig } from '@/app/providers/StoreProvider'
-import { getAuthByInstance } from '@/features/AuthorizationForm'
 import {
     API_TOKEN_INSTANCE,
     API_URL,
     USER_ID_INSTANCE,
 } from '@/shared/const/localstorage'
+
+import { getAuthByInstance } from '../api/userAuthApi'
 
 export const initAuthData = createAsyncThunk<void, void, ThunkConfig<string>>(
     'user/initAuthData',

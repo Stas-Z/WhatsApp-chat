@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from 'react'
 
-import { initAuthData } from '@/entities/User'
+import { initAuthData } from '@/features/AuthorizationForm'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
 
 import AppRouter from './providers/router/ui/AppRouter'

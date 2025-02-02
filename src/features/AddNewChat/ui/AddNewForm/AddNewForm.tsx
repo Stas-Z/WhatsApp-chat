@@ -1,9 +1,8 @@
-import { memo, useCallback } from 'react'
+import { memo, useCallback, useRef } from 'react'
 
 import { useSelector } from 'react-redux'
 
-import { chatActions } from '@/entities/Chat'
-import { getPhoneValue } from '@/entities/Chat'
+import { getUserApiUrl, getUserInstance, getUserToken } from '@/entities/User'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { unformatPhoneNumber } from '@/shared/lib/helpers/formatPhoneNumber/formatPhoneNumber'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
@@ -14,6 +13,9 @@ import { VStack } from '@/shared/ui/Stack'
 import { Text } from '@/shared/ui/Text'
 
 import cls from './AddNewForm.module.scss'
+import { useLazyGetContact } from '../../model/api/newChatApi'
+import { getPhoneValue } from '../../model/selectors/getChatSelectors'
+import { newChatActions } from '../../model/slices/newChatSlice'
 
 export interface AddNewFormProps {
     className?: string
@@ -24,26 +26,43 @@ const AddNewForm = (props: AddNewFormProps) => {
     const { className, onClose } = props
     const dispatch = useAppDispatch()
 
+    const inputRef = useRef<HTMLInputElement>(null)
+
     const phoneNumber = useSelector(getPhoneValue)
+    const idInstance = useSelector(getUserInstance)
+    const apiTokenInstance = useSelector(getUserToken)
+    const apiUrl = useSelector(getUserApiUrl)
+
+    const [getContact] = useLazyGetContact()
 
     const onChangePhone = useCallback(
         (value: string) => {
-            dispatch(chatActions.setPhone(value))
+            dispatch(newChatActions.setPhone(value))
         },
         [dispatch],
     )
 
     const onClickNewChat = useCallback(() => {
-        dispatch(
-            chatActions.setToChats({
-                chatId: unformatPhoneNumber(phoneNumber),
-            }),
-        )
-        dispatch(chatActions.setPhone(''))
-        onClose()
-    }, [dispatch, onClose, phoneNumber])
+        getContact({
+            apiTokenInstance,
+            apiUrl,
+            chatId: unformatPhoneNumber(phoneNumber),
+            idInstance,
+        })
 
-    useEnterKey(onClickNewChat)
+        dispatch(newChatActions.setPhone(''))
+        onClose()
+    }, [
+        apiTokenInstance,
+        apiUrl,
+        dispatch,
+        getContact,
+        idInstance,
+        onClose,
+        phoneNumber,
+    ])
+
+    useEnterKey(onClickNewChat, inputRef)
 
     return (
         <VStack
@@ -58,6 +77,7 @@ const AddNewForm = (props: AddNewFormProps) => {
                 variant="primary"
             />
             <Input
+                ref={inputRef}
                 autoFocus
                 type="text"
                 className={cls.input}

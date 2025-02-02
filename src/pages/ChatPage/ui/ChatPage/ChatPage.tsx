@@ -1,9 +1,9 @@
 import { memo } from 'react'
 
-import { ChatWindow } from '@/features/ChatWindow'
 import { ChatLayout } from '@/shared/layouts/ChatLayout'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { VStack } from '@/shared/ui/Stack'
+import { ChatWindow } from '@/widgets/ChatWindow'
 import { Sidebar } from '@/widgets/Sidebar'
 
 import cls from './ChatPage.module.scss'

@@ -6,8 +6,5 @@ export interface Chat {
 }
 
 export interface ChatSchema {
-    allChats: Chat[]
     currentChat?: Chat
-    phoneNumber: string
-    messageValue: string
 }

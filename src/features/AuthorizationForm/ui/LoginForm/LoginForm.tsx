@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react'
+import { memo, useCallback, useRef } from 'react'
 
 import { useSelector } from 'react-redux'
 
@@ -27,6 +27,8 @@ export interface LoginFormProps {
 
 const LoginForm = (props: LoginFormProps) => {
     const { className } = props
+
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const dispatch = useAppDispatch()
     const apiUrl = useSelector(getApiUrl)
@@ -59,7 +61,7 @@ const LoginForm = (props: LoginFormProps) => {
         login({ apiUrl, idInstance, apiTokenInstance })
     }, [apiTokenInstance, apiUrl, idInstance, login])
 
-    useEnterKey(onClickLogin)
+    useEnterKey(onClickLogin, inputRef)
 
     return (
         <VStack
@@ -79,6 +81,7 @@ const LoginForm = (props: LoginFormProps) => {
             )}
             <VStack gap="16" max>
                 <Input
+                    ref={inputRef}
                     autoFocus
                     type="text"
                     className={cls.input}
@@ -88,6 +91,7 @@ const LoginForm = (props: LoginFormProps) => {
                     value={apiUrl}
                 />
                 <Input
+                    ref={inputRef}
                     autoFocus
                     type="text"
                     className={cls.input}
@@ -97,6 +101,7 @@ const LoginForm = (props: LoginFormProps) => {
                     value={idInstance}
                 />
                 <Input
+                    ref={inputRef}
                     type="password"
                     className={cls.input}
                     placeholder="Введите apiTokenInstance"

@@ -1,28 +1,30 @@
 import { memo } from 'react'
 
-import { useSelector } from 'react-redux'
-
 import { classNames } from '@/shared/lib/classNames/classNames'
 
 import cls from './ChatList.module.scss'
-import { getAllChats } from '../../model/selectors/getChatSelectors'
+import { Chat } from '../../model/types/chatSchema'
 import { ChatItem } from '../ChatItem/ChatItem'
 
 interface ChatListProps {
     className?: string
+    allChats: Chat[]
+    onClickDelete?: (chatId: string) => void
 }
 
 export const ChatList = memo((props: ChatListProps) => {
-    const { className } = props
-
-    const chats = useSelector(getAllChats)
+    const { className, allChats, onClickDelete } = props
 
     return (
         <div className={classNames(cls.chatList, {}, [className])}>
             <div className={cls.wrapper}>
-                {chats &&
-                    chats.map((chat) => (
-                        <ChatItem key={chat.chatId} chatId={chat.chatId} />
+                {allChats &&
+                    allChats.map((chat) => (
+                        <ChatItem
+                            key={chat.chatId}
+                            chat={chat}
+                            onClick={onClickDelete}
+                        />
                     ))}
             </div>
         </div>

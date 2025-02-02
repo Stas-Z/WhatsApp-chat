@@ -1,17 +1,12 @@
-import { memo, useCallback, useState } from 'react'
+import { memo } from 'react'
 
-import { useSelector } from 'react-redux'
-
-import { ChatList, getCurrentChat } from '@/entities/Chat'
-import { userActions } from '@/entities/User'
-import { AddNewChatModal } from '@/features/AddNewChat'
+import { UserChatsList } from '@/features/AddNewChat'
 import { classNames } from '@/shared/lib/classNames/classNames'
-import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
-import { Button } from '@/shared/ui/Button'
-import { HStack, VStack } from '@/shared/ui/Stack'
-import { Text } from '@/shared/ui/Text'
+import { VStack } from '@/shared/ui/Stack'
 
 import cls from './Sidebar.module.scss'
+import { SidebarFooter } from '../SidebarFooter/SidebarFooter'
+import { SidebarHeader } from '../SidebarHeader/SidebarHeader'
 
 interface SidebarProps {
     className?: string
@@ -19,42 +14,12 @@ interface SidebarProps {
 
 export const Sidebar = memo((props: SidebarProps) => {
     const { className } = props
-    const dispatch = useAppDispatch()
-    const currentChat = useSelector(getCurrentChat)
-
-    const [isAuthModal, setIsAuthModal] = useState(false)
-
-    const onCloseModal = useCallback(() => {
-        setIsAuthModal(false)
-    }, [])
-    const onShowModal = useCallback(() => {
-        setIsAuthModal(true)
-    }, [])
-
-    const onClickExit = useCallback(() => {
-        dispatch(userActions.logout())
-    }, [dispatch])
 
     return (
         <VStack maxHeight className={classNames(cls.sidebar, {}, [className])}>
-            <HStack justify="between" max className={cls.header}>
-                <Text bold text="Чаты" size="l" />
-                <Button onClick={onClickExit}>Выйти</Button>
-            </HStack>
-            <ChatList />
-            <AddNewChatModal isOpen={isAuthModal} onClose={onCloseModal} />
-            <HStack max className={cls.addButtonBlock}>
-                {currentChat && (
-                    <Button
-                        variant="filled"
-                        fullWidth
-                        onClick={onShowModal}
-                        className={cls.addButton}
-                    >
-                        Добавить чат
-                    </Button>
-                )}
-            </HStack>
+            <SidebarHeader />
+            <UserChatsList />
+            <SidebarFooter />
         </VStack>
     )
 })

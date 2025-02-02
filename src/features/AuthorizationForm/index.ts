@@ -1,3 +1,5 @@
+export { initAuthData } from './model/services/initAuthData'
+
 export { getAuthByInstance } from './model/api/userAuthApi'
 
 export { LoginModal } from './ui/LoginModal/LoginModal'
