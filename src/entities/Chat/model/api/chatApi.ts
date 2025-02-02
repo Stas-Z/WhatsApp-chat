@@ -37,7 +37,11 @@ export const chatApi = rtkApi.injectEndpoints({
             }),
             transformResponse: (response: Message[]) =>
                 response
-                    .filter((message) => message.typeMessage === 'textMessage')
+                    .filter(
+                        (message) =>
+                            message.typeMessage === 'textMessage' ||
+                            'extendedTextMessage',
+                    )
                     .slice()
                     .reverse(),
         }),
