@@ -11,3 +11,13 @@
     background-color: var(--bg-color);
     height: 100vh;
 }
+.react-tel-input .flag-dropdown.open .selected-flag {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+.react-tel-input .selected-flag:hover {
+    background-color: #fff;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+}

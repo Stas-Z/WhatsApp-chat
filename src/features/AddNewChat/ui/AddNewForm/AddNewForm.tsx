@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef } from 'react'
+import { memo, useCallback, useEffect } from 'react'
 
 import { useSelector } from 'react-redux'
 
@@ -6,9 +6,8 @@ import { getUserApiUrl, getUserInstance, getUserToken } from '@/entities/User'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { unformatPhoneNumber } from '@/shared/lib/helpers/formatPhoneNumber/formatPhoneNumber'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
-import { useEnterKey } from '@/shared/lib/hooks/useEnterKey/useEnterKey'
 import { Button } from '@/shared/ui/Button'
-import { Input } from '@/shared/ui/Input'
+import { MyPhoneInput } from '@/shared/ui/PhoneInput'
 import { VStack } from '@/shared/ui/Stack'
 import { Text } from '@/shared/ui/Text'
 
@@ -25,8 +24,6 @@ export interface AddNewFormProps {
 const AddNewForm = (props: AddNewFormProps) => {
     const { className, onClose } = props
     const dispatch = useAppDispatch()
-
-    const inputRef = useRef<HTMLInputElement>(null)
 
     const phoneNumber = useSelector(getPhoneValue)
     const idInstance = useSelector(getUserInstance)
@@ -62,7 +59,21 @@ const AddNewForm = (props: AddNewFormProps) => {
         phoneNumber,
     ])
 
-    useEnterKey(onClickNewChat, inputRef)
+    const onKeyDown = useCallback(
+        (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                onClickNewChat()
+            }
+        },
+        [onClickNewChat],
+    )
+    useEffect(() => {
+        window.addEventListener('keydown', onKeyDown)
+
+        return () => {
+            window.removeEventListener('keydown', onKeyDown)
+        }
+    }, [onKeyDown])
 
     return (
         <VStack
@@ -76,15 +87,7 @@ const AddNewForm = (props: AddNewFormProps) => {
                 bold
                 variant="primary"
             />
-            <Input
-                ref={inputRef}
-                autoFocus
-                type="text"
-                className={cls.input}
-                placeholder="Номер телефона"
-                onChange={onChangePhone}
-                value={phoneNumber}
-            />
+            <MyPhoneInput onChange={onChangePhone} value={phoneNumber} />
 
             <Button className={cls.button} onClick={onClickNewChat}>
                 Начать
