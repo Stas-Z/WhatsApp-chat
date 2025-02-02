@@ -11,7 +11,6 @@ export function buildViteConfig(options: BuildOptions): UserConfig {
     const { mode, isDev } = options
     return {
         mode,
-        base: mode === 'production' ? '/frontend-challenge/' : '/',
         plugins: buildPlugins(),
         resolve: buildResolvers(options),
         build: buildOptions(options),
