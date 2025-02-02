@@ -36,7 +36,7 @@ export default [
                 'error',
                 {
                     alias: '@',
-                    ignoreImportPatterns: ['**/StoreProvider'],
+                    ignoreImportPatterns: ['**/StoreProvider', '**/indexedDB'],
                 },
             ],
             'react/require-default-props': 'off',

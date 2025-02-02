@@ -1,5 +1,6 @@
 import { memo, useCallback } from 'react'
 
+import { deleteApiData } from '@/app/providers/indexedDB/indexedDB'
 import { userActions } from '@/entities/User'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'
@@ -20,6 +21,7 @@ export const SidebarHeader = memo((props: SidebarHeaderProps) => {
 
     const onClickExit = useCallback(() => {
         dispatch(userActions.logout())
+        deleteApiData()
     }, [dispatch])
 
     return (

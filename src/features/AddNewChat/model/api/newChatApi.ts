@@ -1,3 +1,4 @@
+import { saveChats } from '@/app/providers/indexedDB/indexedDB'
 import { Chat, chatActions } from '@/entities/Chat'
 import { errorActions } from '@/entities/Error'
 import { rtkApi } from '@/shared/api/rtkApi'
@@ -70,6 +71,7 @@ export const newChatApi = rtkApi.injectEndpoints({
                             return
                         }
                         dispatch(errorActions.setErrorMessage(''))
+
                         dispatch(
                             newChatActions.setToChats({
                                 chatId,
@@ -78,6 +80,7 @@ export const newChatApi = rtkApi.injectEndpoints({
                                 name,
                             }),
                         )
+                        await saveChats([{ chatId, avatar, contactName, name }])
                         dispatch(
                             chatActions.setCurrentChat({
                                 chatId,

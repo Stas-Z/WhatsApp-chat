@@ -1,3 +1,5 @@
+export { newChatActions } from './model/slices/newChatSlice'
+
 export { UserChatsList } from './ui/UserChatsList/UserChatsList'
 
 export { newChatReducer } from './model/slices/newChatSlice'

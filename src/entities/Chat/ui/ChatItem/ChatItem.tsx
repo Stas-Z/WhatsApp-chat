@@ -2,6 +2,7 @@ import { memo, useCallback } from 'react'
 
 import { useSelector } from 'react-redux'
 
+import { deleteChat } from '@/app/providers/indexedDB/indexedDB'
 import { getNoticeById } from '@/entities/Notice'
 import Close from '@/shared/assets/icons/delete.svg?react'
 import { classNames } from '@/shared/lib/classNames/classNames'
@@ -48,6 +49,7 @@ export const ChatItem = memo((props: ChatItemProps) => {
         if (onClick) {
             onClick(chatId)
         }
+        deleteChat(chatId)
     }, [chatId, dispatch, onClick])
 
     return (

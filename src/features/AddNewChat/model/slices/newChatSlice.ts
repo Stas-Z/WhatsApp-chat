@@ -16,6 +16,9 @@ export const newChatSlice = createSlice({
         setPhone: (state, action: PayloadAction<string>) => {
             state.phoneNumber = action.payload
         },
+        initChats: (state, action: PayloadAction<Chat[]>) => {
+            state.allChats = action.payload
+        },
         setToChats: (state, action: PayloadAction<Chat>) => {
             const existingChat = state.allChats.find(
                 (chat) => chat.chatId === action.payload.chatId,

@@ -25,11 +25,14 @@ export const UserChatsList = memo((props: UserChatsListProps) => {
     const apiTokenInstance = useSelector(getUserToken)
     const apiUrl = useSelector(getUserApiUrl)
 
-    const { data } = usReceiveNotification({
-        apiUrl,
-        apiTokenInstance,
-        idInstance,
-    })
+    const { data } = usReceiveNotification(
+        {
+            apiUrl,
+            apiTokenInstance,
+            idInstance,
+        },
+        { refetchOnFocus: true },
+    )
 
     const chats = useSelector(getAllChats)
 

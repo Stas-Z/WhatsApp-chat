@@ -1,11 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
+import { getApiData, getChats } from '@/app/providers/indexedDB/indexedDB'
 import { ThunkConfig } from '@/app/providers/StoreProvider'
-import {
-    API_TOKEN_INSTANCE,
-    API_URL,
-    USER_ID_INSTANCE,
-} from '@/shared/const/localstorage'
+import { chatActions } from '@/entities/Chat'
+// eslint-disable-next-line
+import { newChatActions } from '@/features/AddNewChat'
 
 import { getAuthByInstance } from '../api/userAuthApi'
 
@@ -14,9 +13,17 @@ export const initAuthData = createAsyncThunk<void, void, ThunkConfig<string>>(
     async (_, thunkAPI) => {
         const { rejectWithValue, dispatch } = thunkAPI
 
-        const apiUrl = localStorage.getItem(API_URL)
-        const idInstance = localStorage.getItem(USER_ID_INSTANCE)
-        const apiTokenInstance = localStorage.getItem(API_TOKEN_INSTANCE)
+        const storedData = await getApiData()
+        const storedChats = await getChats()
+
+        dispatch(newChatActions.initChats(storedChats))
+        if (storedChats.length) {
+            dispatch(chatActions.setCurrentChat(storedChats[0]))
+        }
+
+        const apiUrl = storedData.apiUrl
+        const idInstance = storedData.userId
+        const apiTokenInstance = storedData.apiToken
 
         if (!apiUrl || !idInstance || !apiTokenInstance) {
             return rejectWithValue('no user data')

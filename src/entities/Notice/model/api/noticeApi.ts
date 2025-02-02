@@ -18,17 +18,45 @@ interface DeleteNoticeProps extends fetchNoticeProps {
 
 export const noticeApi = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        deleteNotification: build.mutation<void, DeleteNoticeProps>({
+        deleteNotification: build.mutation<
+            { result: string },
+            DeleteNoticeProps
+        >({
             query: ({ apiUrl, idInstance, apiTokenInstance, receiptId }) => ({
                 url: `${apiUrl}/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`,
                 method: 'DELETE',
             }),
+            async onQueryStarted(
+                { idInstance, apiTokenInstance, apiUrl },
+                thunkAPI,
+            ) {
+                const { dispatch, queryFulfilled, getState } = thunkAPI
+                try {
+                    const { data } = await queryFulfilled
+                    if (data) {
+                        // После успешного удаления выполняем receiveNotification
+                        await dispatch(
+                            noticeApi.endpoints.receiveNotification.initiate(
+                                {
+                                    apiUrl,
+                                    idInstance,
+                                    apiTokenInstance,
+                                },
+                                { forceRefetch: true },
+                            ),
+                        ).unwrap()
+                    }
+                } catch (error) {
+                    console.error('Ошибка при удалении уведомления:', error)
+                }
+            },
         }),
         receiveNotification: build.query<NoticeResponse, fetchNoticeProps>({
             query: ({ apiUrl, idInstance, apiTokenInstance }) => ({
                 url: `${apiUrl}/waInstance${idInstance}/receiveNotification/${apiTokenInstance}?receiveTimeout=60`,
                 method: 'GET',
             }),
+            keepUnusedDataFor: 0,
             async onQueryStarted(
                 { idInstance, apiTokenInstance, apiUrl },
                 thunkAPI,
@@ -98,16 +126,16 @@ export const noticeApi = rtkApi.injectEndpoints({
                             }),
                         ).unwrap()
 
-                        await dispatch(
-                            noticeApi.endpoints.receiveNotification.initiate(
-                                {
-                                    apiUrl,
-                                    idInstance,
-                                    apiTokenInstance,
-                                },
-                                { forceRefetch: true },
-                            ),
-                        ).unwrap()
+                        // await dispatch(
+                        //     noticeApi.endpoints.receiveNotification.initiate(
+                        //         {
+                        //             apiUrl,
+                        //             idInstance,
+                        //             apiTokenInstance,
+                        //         },
+                        //         { forceRefetch: true },
+                        //     ),
+                        // ).unwrap()
                     }
                 } catch (error) {
                     console.error(
