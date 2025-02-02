@@ -7,6 +7,7 @@ export type MessageTypes = ValueOf<typeof MessageType>
 
 export interface Message {
     chatId?: string
+    typeMessage?: string
     textMessage?: string
     type: MessageTypes
     timestamp: number
