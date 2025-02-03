@@ -8,7 +8,7 @@ import { useEnterKey } from '@/shared/lib/hooks/useEnterKey/useEnterKey'
 import { AppImage } from '@/shared/ui/AppImage'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
-import { Skeleton } from '@/shared/ui/Skeleton'
+import { Loader } from '@/shared/ui/Loader'
 import { HStack, VStack } from '@/shared/ui/Stack'
 import { Text } from '@/shared/ui/Text'
 
@@ -69,11 +69,11 @@ const LoginForm = (props: LoginFormProps) => {
             align="center"
             className={classNames(cls.loginForm, {}, [className])}
         >
-            <VStack gap="16" max align="center">
+            <VStack gap="16" max align="center" className={cls.logo}>
                 <AppImage
                     width={200}
                     src={'img/Logo_green.svg'}
-                    fallback={<Skeleton width={200} height={43} />}
+                    fallback={<Loader />}
                 />
             </VStack>
             {isError && (
