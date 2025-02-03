@@ -1,3 +1,5 @@
+export { initAllChats } from './model/services/initAllChats'
+
 export { newChatActions } from './model/slices/newChatSlice'
 
 export { UserChatsList } from './ui/UserChatsList/UserChatsList'

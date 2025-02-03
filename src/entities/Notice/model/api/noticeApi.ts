@@ -34,7 +34,6 @@ export const noticeApi = rtkApi.injectEndpoints({
                 try {
                     const { data } = await queryFulfilled
                     if (data) {
-                        // После успешного удаления выполняем receiveNotification
                         await dispatch(
                             noticeApi.endpoints.receiveNotification.initiate(
                                 {
@@ -125,17 +124,6 @@ export const noticeApi = rtkApi.injectEndpoints({
                                 receiptId,
                             }),
                         ).unwrap()
-
-                        // await dispatch(
-                        //     noticeApi.endpoints.receiveNotification.initiate(
-                        //         {
-                        //             apiUrl,
-                        //             idInstance,
-                        //             apiTokenInstance,
-                        //         },
-                        //         { forceRefetch: true },
-                        //     ),
-                        // ).unwrap()
                     }
                 } catch (error) {
                     console.error(

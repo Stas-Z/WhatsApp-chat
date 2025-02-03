@@ -2,11 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Chat } from '@/entities/Chat'
 
+import { initAllChats } from '../services/initAllChats'
 import { NewChatSchema } from '../types/newChatSchema'
 
 const initialState: NewChatSchema = {
     phoneNumber: '',
     allChats: [],
+    isLoading: false,
+    error: '',
 }
 
 export const newChatSlice = createSlice({
@@ -33,6 +36,24 @@ export const newChatSlice = createSlice({
                 (chat) => chat.chatId !== action.payload.chatId,
             )
         },
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(initAllChats.pending, (state) => {
+                state.isLoading = true
+                state.error = undefined
+            })
+            .addCase(
+                initAllChats.fulfilled,
+                (state, action: PayloadAction<Chat[]>) => {
+                    state.allChats = action.payload
+                    state.isLoading = false
+                },
+            )
+            .addCase(initAllChats.rejected, (state, action) => {
+                state.isLoading = false
+                state.error = action.payload
+            })
     },
 })
 
