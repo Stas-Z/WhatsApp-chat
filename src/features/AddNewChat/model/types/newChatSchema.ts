@@ -5,4 +5,6 @@ export interface NewChatSchema {
     allChats: Chat[]
     isLoading?: boolean
     error?: string
+
+    _inited: boolean
 }

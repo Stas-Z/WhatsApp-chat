@@ -1,6 +1,10 @@
+import { createSelector } from '@reduxjs/toolkit'
+
 import { StateSchema } from '@/app/providers/StoreProvider'
 
 export const getCurrentChat = (state: StateSchema) => state.chat.currentChat
 
-export const getCurrentChatId = (state: StateSchema) =>
-    state.chat.currentChat?.chatId
+export const getCurrentChatId = createSelector(
+    [getCurrentChat],
+    (currentChat) => currentChat?.chatId,
+)

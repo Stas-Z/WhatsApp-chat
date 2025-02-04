@@ -2,11 +2,10 @@ import { memo, useCallback, useState } from 'react'
 
 import { useSelector } from 'react-redux'
 
-import { useGetChatHistory } from '@/entities/Chat'
-import { getCurrentChatId } from '@/entities/Chat'
+import { getCurrentChatId, useGetChatHistory } from '@/entities/Chat'
 import { Error } from '@/entities/Error'
 import { getUserApiUrl, getUserInstance, getUserToken } from '@/entities/User'
-import { AddNewChatModal } from '@/features/AddNewChat'
+import { AddNewChatModal, getChatsInited } from '@/features/AddNewChat'
 import { ChatDetails, ChatFooter, ChatHeader } from '@/features/UserChat'
 import { classNames } from '@/shared/lib/classNames/classNames'
 import { AppImage } from '@/shared/ui/AppImage'
@@ -38,12 +37,17 @@ export const ChatWindow = memo((props: ChatWindowProps) => {
 
     const chatId = useSelector(getCurrentChatId)
 
-    const { data: messages } = useGetChatHistory({
-        apiUrl,
-        chatId,
-        idInstance,
-        apiTokenInstance,
-    })
+    const inited = useSelector(getChatsInited)
+
+    const { data: messages } = useGetChatHistory(
+        {
+            apiUrl,
+            chatId,
+            idInstance,
+            apiTokenInstance,
+        },
+        { skip: !inited },
+    )
 
     if (!chatId) {
         return (
@@ -83,6 +87,7 @@ export const ChatWindow = memo((props: ChatWindowProps) => {
             className={classNames(cls.chatWindow, {}, [className, cls.current])}
         >
             <div className={cls.imgBack}></div>
+
             <ChatHeader />
             <ChatDetails messages={messages} />
             <ChatFooter />

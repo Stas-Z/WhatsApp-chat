@@ -1,6 +1,6 @@
 export { chatApi } from './model/api/chatApi'
 
-export { useGetChatHistory } from './model/api/chatApi'
+export { useGetChatHistory, useLazyGetChatHistory } from './model/api/chatApi'
 
 export { ChatList } from './ui/ChatList/ChatList'
 

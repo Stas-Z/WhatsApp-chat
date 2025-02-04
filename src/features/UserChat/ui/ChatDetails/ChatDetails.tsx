@@ -30,6 +30,7 @@ export const ChatDetails = memo((props: ChatDetailsProps) => {
             className={classNames(cls.chatDetails, {}, [className])}
         >
             <div className={cls.space} />
+
             <MessageList messages={messages} />
         </VStack>
     )

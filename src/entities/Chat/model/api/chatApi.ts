@@ -1,3 +1,4 @@
+import { errorActions } from '@/entities/Error'
 import { Message } from '@/entities/Message'
 import { rtkApi } from '@/shared/api/rtkApi'
 
@@ -40,13 +41,26 @@ export const chatApi = rtkApi.injectEndpoints({
                     .filter(
                         (message) =>
                             message.typeMessage === 'textMessage' ||
-                            'extendedTextMessage',
+                            message.typeMessage === 'extendedTextMessage',
                     )
                     .slice()
                     .reverse(),
+
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    await queryFulfilled
+                    dispatch(errorActions.setErrorMessage(''))
+                } catch (error) {
+                    console.error('Ошибка загрузки истории чата:', error)
+                    dispatch(
+                        errorActions.setErrorMessage('Ошибка загрузки чата'),
+                    )
+                }
+            },
         }),
     }),
 })
 
 export const useCheckWhatsapp = chatApi.useCheckWhatsappQuery
 export const useGetChatHistory = chatApi.useGetChatHistoryQuery
+export const useLazyGetChatHistory = chatApi.useLazyGetChatHistoryQuery

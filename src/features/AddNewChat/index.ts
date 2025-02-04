@@ -1,3 +1,5 @@
+export { getChatsInited } from './model/selectors/getChatSelectors'
+
 export { initAllChats } from './model/services/initAllChats'
 
 export { newChatActions } from './model/slices/newChatSlice'

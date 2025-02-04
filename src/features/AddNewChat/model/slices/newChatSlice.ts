@@ -10,6 +10,7 @@ const initialState: NewChatSchema = {
     allChats: [],
     isLoading: false,
     error: '',
+    _inited: false,
 }
 
 export const newChatSlice = createSlice({
@@ -48,6 +49,7 @@ export const newChatSlice = createSlice({
                 (state, action: PayloadAction<Chat[]>) => {
                     state.allChats = action.payload
                     state.isLoading = false
+                    state._inited = true
                 },
             )
             .addCase(initAllChats.rejected, (state, action) => {
