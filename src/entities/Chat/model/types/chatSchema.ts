@@ -3,7 +3,6 @@ export interface Chat {
     name?: string
     contactName?: string
     avatar?: string
-    timestamp?: number
 }
 
 export interface ChatSchema {

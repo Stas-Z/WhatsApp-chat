@@ -46,7 +46,7 @@ export const chatApi = rtkApi.injectEndpoints({
                     .slice()
                     .reverse(),
 
-            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+            async onQueryStarted(_, { queryFulfilled, dispatch }) {
                 try {
                     await queryFulfilled
                     dispatch(errorActions.setErrorMessage(''))

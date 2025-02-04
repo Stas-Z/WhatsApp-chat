@@ -1,0 +1,15 @@
+.messageDate {
+    margin-bottom: 2px;
+    z-index: 2;
+    position: relative;
+}
+
+.messageBlock {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+}
+.textBlock {
+    padding: 8px 10px;
+    text-transform: uppercase;
+}
