@@ -81,6 +81,7 @@ export const newChatApi = rtkApi.injectEndpoints({
                             }),
                         )
                         await saveChats([{ chatId, avatar, contactName, name }])
+
                         dispatch(
                             chatActions.setCurrentChat({
                                 chatId,
@@ -89,6 +90,7 @@ export const newChatApi = rtkApi.injectEndpoints({
                                 name,
                             }),
                         )
+                        dispatch(newChatActions.setInited())
                     }
                 } catch (error) {
                     console.error(

@@ -37,6 +37,9 @@ export const newChatSlice = createSlice({
                 (chat) => chat.chatId !== action.payload.chatId,
             )
         },
+        setInited: (state) => {
+            state._inited = true
+        },
     },
     extraReducers(builder) {
         builder
