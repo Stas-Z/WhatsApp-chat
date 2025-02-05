@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react-swc'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { PluginOption } from 'vite'
 import checker from 'vite-plugin-checker'
+import imagemin from 'vite-plugin-imagemin'
 import svgr from 'vite-plugin-svgr'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -31,6 +32,12 @@ export function buildPlugins(): PluginOption[] {
         visualizer(),
         checker({
             typescript: true,
+        }),
+        imagemin({
+            gifsicle: { optimizationLevel: 3 },
+            mozjpeg: { quality: 75 },
+            optipng: { optimizationLevel: 5 },
+            svgo: { plugins: [{ removeViewBox: false }] },
         }),
     ]
     return plugins

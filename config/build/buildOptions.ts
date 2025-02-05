@@ -7,6 +7,15 @@ export function buildOptions(options: BuildOptions): BuildEnvironmentOptions {
     return {
         outDir: paths.build,
         sourcemap: isDev ? 'inline' : false,
+        minify: isDev ? false : 'terser',
+        terserOptions: isDev
+            ? undefined
+            : {
+                  compress: {
+                      drop_console: true,
+                      drop_debugger: true,
+                  },
+              },
         rollupOptions: {
             input: [paths.entry, paths.html],
             treeshake: true,
